@@ -4,7 +4,7 @@
 /*==============================================================*/
 create table AddressInfo
 (
-   id                   varchar(254) comment '地址ID',
+   id                   varchar(254) comment '地址ID11111111111111111111',
    name                 varchar(254) comment '姓名',传   
    phone                varchar(254) comment '手机号',
    province             varchar(254) comment '省',
