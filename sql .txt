@@ -1,0 +1,430 @@
+﻿
+/*==============================================================*/
+/* Table: AddressInfo                                           */
+/*==============================================================*/
+create table AddressInfo
+(
+   id                   varchar(254) comment '地址ID',
+   name                 varchar(254) comment '姓名',
+   phone                varchar(254) comment '手机号',
+   province             varchar(254) comment '省',
+   city                 varchar(254) comment '市',
+   region               varchar(254) comment '区',
+   address              varchar(254) comment '地址'
+);
+
+alter table AddressInfo comment '包含收件人姓名、电话、地址';
+
+/*==============================================================*/
+/* Table: AppUser                                               */
+/*==============================================================*/
+create table AppUser
+(
+   userId               varchar(254) comment '微信用户ID',
+   realName             varchar(254) comment '用户的真实姓名',
+   phoneNumber          varchar(254) comment '手机号',
+   score                int comment '用户积分',
+   integralBillList     List<IntegralBill> comment '用户积分账单',
+   wxInfo               WxInfo comment '用户所对应的微信信息',
+   companyList          List<WxUserCompany> comment '用户注册公司信息'
+);
+
+alter table AppUser comment '微信公众号用户信息';
+
+/*==============================================================*/
+/* Table: CounterofferRecord                                    */
+/*==============================================================*/
+create table CounterofferRecord
+(
+   counterId            varchar(254),
+   userId               varchar(254),
+   isSeller             bool,
+   quotation            Quotation,
+   price                varchar(254),
+   num                  varchar(254),
+   createDatetime       datetime
+);
+
+/*==============================================================*/
+/* Table: Drawback                                              */
+/*==============================================================*/
+create table Drawback
+(
+   drawBackId           varchar(254) comment '退款单ID',
+   priceNum             varchar(254) comment '退款金额',
+   accountNo            varchar(254) comment '退款账号',
+   company              WxUserCompany comment '公司',
+   drawBackDetail       varchar(254) comment '退款说明',
+   applyDatetime        datetime comment '申请时间',
+   applyId              varchar(254) comment '申请者ID',
+   praticalPriceNum     varchar(254) comment '实际退款金额',
+   drawBackDatetime     datetime comment '实际退款时',
+   drawBackStatue       varchar(254) comment '退款状态'
+);
+
+/*==============================================================*/
+/* Table: Driver                                                */
+/*==============================================================*/
+create table Driver
+(
+   driverId             varchar(254) comment '司机ID',
+   下车单                  Truckmission comment '下车单',
+   driverName           varchar(254) comment '司机姓名',
+   driverPhone          varchar(254) comment '司机手机号',
+   driverIdentity       varchar(254) comment '司机身份证',
+   carNo                varchar(254) comment '车牌号'
+);
+
+/*==============================================================*/
+/* Table: Evaluate                                              */
+/*==============================================================*/
+create table Evaluate
+(
+   orderId              varchar(254) comment '评价ID',
+   wxOrder              WxOrder comment '订单',
+   evaluateLevel        List<EvaluateLevel> comment '评价指标',
+   score                varchar(254) comment '分值',
+   createDatetime       datetime comment '创建时间',
+   evaluateComment      varchar(254) comment '评价备注'
+);
+
+/*==============================================================*/
+/* Table: EvaluateLevel                                         */
+/*==============================================================*/
+create table EvaluateLevel
+(
+   evaluateLevelId      varchar(254) comment '评价指标id',
+   name                 varchar(254) comment '指标名称',
+   type                 varchar(254) comment '指标类型',
+   "explain"            varchar(254) comment '指标说明'
+);
+
+alter table EvaluateLevel comment '评价指标';
+
+/*==============================================================*/
+/* Table: ExpressBill                                           */
+/*==============================================================*/
+create table ExpressBill
+(
+   code                 varchar(254) comment '快递单号',
+   expressCompany       varchar(254) comment '快递公司'
+);
+
+alter table ExpressBill comment '礼品寄出所生成的快递单';
+
+/*==============================================================*/
+/* Table: Goods                                                 */
+/*==============================================================*/
+create table Goods
+(
+   goodsId              varchar(254) comment '礼品ID',
+   goodsName            varchar(254) comment '礼品名称',
+   picture              varchar(254) comment '礼品图片',
+   score                int comment '兑换积分',
+   count                int comment '库存数',
+   freeState            int comment '是否为赠品',
+   putawayState         int comment '是否上架',
+   index                int comment '优先级'
+);
+
+/*==============================================================*/
+/* Table: GoodsOrder                                            */
+/*==============================================================*/
+create table GoodsOrder
+(
+   id                   varchar(254) comment '礼品ID',
+   code                 varchar(254) comment '礼品订单编号',
+   goodsInfo            List<Goods> comment '礼品信息',
+   addressInfo          AddressInfo comment '地址信息',
+   expressBill          ExpressBill comment '快递单'
+);
+
+/*==============================================================*/
+/* Table: GroupWxUser                                           */
+/*==============================================================*/
+create table GroupWxUser
+(
+   groupId              varchar(254) comment '群组id',
+   groupName            varchar(254) comment '群组名',
+   AppUserList          List<AppUser> comment '群成员'
+);
+
+alter table GroupWxUser comment '微信用户群组';
+
+/*==============================================================*/
+/* Table: IntegralBill                                          */
+/*==============================================================*/
+create table IntegralBill
+(
+   quotationId          varchar(254) comment '积分账单ID',
+   inAndDecrease        varchar(254) comment '支出或增加积分',
+   time                 datetime comment '支出或增加积分时间',
+   reason               varchar(254) comment '支出或增加积分是由'
+);
+
+/*==============================================================*/
+/* Table: Invoice                                               */
+/*==============================================================*/
+create table Invoice
+(
+   invoiceId            varchar(254) comment '发票ID',
+   wxOrder              WxOrder comment '订单',
+   InvoiceCode          varchar(254) comment '发票代码',
+   InvoiceNo            varchar(254) comment '发票号码',
+   InvoiceDatetime      datetime comment '开票日期',
+   validateCode         varchar(254) comment '校验码',
+   name                 varchar(254) comment '名称',
+   taxPayerNo           varchar(254) comment '纳税人识别号',
+   address              varchar(254) comment '地址',
+   bankAndAccount       varchar(254) comment '开户行及账号',
+   sellName             varchar(254) comment '销售方名称',
+   sellTaxPayerNo       varchar(254) comment '销售方纳税人识别',
+   sellAddress          varchar(254) comment '销售方电话地址',
+   sellBankAndAccount   varchar(254) comment '销售方开户行及账号',
+   remark               varchar(254) comment '备注',
+   InvoiceGood          List<InvoiceGood> comment '发票物料'
+);
+
+/*==============================================================*/
+/* Table: InvoiceGood                                           */
+/*==============================================================*/
+create table InvoiceGood
+(
+   goodId               varchar(254) comment '物品id',
+   Invoice              Invoice comment '发票',
+   name                 varchar(254) comment '名称',
+   model                varchar(254) comment '规格型号',
+   unit                 varchar(254) comment '单位',
+   price                varchar(254) comment '单价',
+   num                  varchar(254) comment '数量',
+   cost                 varchar(254) comment '金额',
+   taxRate              varchar(254) comment '税率',
+   taxCost              varchar(254) comment '税额'
+);
+
+alter table InvoiceGood comment '发票物品详情';
+
+/*==============================================================*/
+/* Table: Ladingbill                                            */
+/*==============================================================*/
+create table Ladingbill
+(
+   ladingbillId         varchar(254) comment '提单ID',
+   wxOrder              WxOrder comment '订单',
+   createDatetime       datetime comment '创建时间',
+   ladingbillDetail     List<LadingbillDetail> comment '提单明细'
+);
+
+/*==============================================================*/
+/* Table: LadingbillDetail                                      */
+/*==============================================================*/
+create table LadingbillDetail
+(
+   提单明细id               varchar(254) comment '提单明细ID',
+   goodsName            varchar(254) comment '物料名称',
+   count                varchar(254) comment '数量'
+);
+
+alter table LadingbillDetail comment '提单明细';
+
+/*==============================================================*/
+/* Table: Message                                               */
+/*==============================================================*/
+create table Message
+(
+   messageId            varchar(254) comment '留言ID',
+   messageRouter        MessageRouter comment '消息路由',
+   messagerId           varchar(254) comment '留言者ID',
+   isCustomerService    bool comment '是否是客服',
+   createDatetime       datetime comment '创建时间',
+   messageContent       varchar(254) comment '留言信息'
+);
+
+/*==============================================================*/
+/* Table: MessageRouter                                         */
+/*==============================================================*/
+create table MessageRouter
+(
+   sessionId            varchar(254) comment '会话ID',
+   AppUser              AppUser comment '微信用户',
+   customterServiceId   varchar(254) comment '客服工号',
+   createDatetime       varchar(254) comment '创建时间'
+);
+
+/*==============================================================*/
+/* Table: OrderDetail                                           */
+/*==============================================================*/
+create table OrderDetail
+(
+   orderDetailId        varchar(254) comment '明细ID',
+   goodsId              varchar(254) comment '料号',
+   goodsName            varchar(254) comment '品名',
+   getGoodsDeadLine     datetime comment '提货截止日',
+   count                varchar(254) comment '数量',
+   rateMol              varchar(254) comment '溢短装',
+   unit                 varchar(254) comment '单位',
+   price                varchar(254) comment '定价',
+   outTankPrice         varchar(254) comment '出罐价'
+);
+
+alter table OrderDetail comment '订单明细';
+
+/*==============================================================*/
+/* Table: Outrecwh                                              */
+/*==============================================================*/
+create table Outrecwh
+(
+   outrecwhId           varchar(254) comment '出库单ID',
+   wxOrder              WxOrder comment '订单',
+   createDatetime       datetime comment '创建时间',
+   outrecwhDetail       List<OutrecwhDetail> comment '出库明细'
+);
+
+/*==============================================================*/
+/* Table: OutrecwhDetail                                        */
+/*==============================================================*/
+create table OutrecwhDetail
+(
+   出库明细id               varchar(254) comment '出库明细ID',
+   goodsName            varchar(254) comment '物料名称',
+   count                varchar(254) comment '数量'
+);
+
+alter table OutrecwhDetail comment '出库明细';
+
+/*==============================================================*/
+/* Table: PlasticPrice                                          */
+/*==============================================================*/
+create table PlasticPrice
+(
+   id                   varchar(254) comment '橡塑牌价ID',
+   port                 varchar(254) comment '港口',
+   spec                 varchar(254) comment '规格',
+   mark                 varchar(254) comment '牌号',
+   warehouse            varchar(254) comment '仓库',
+   packaging            varchar(254) comment '包装',
+   quote                varchar(254) comment '报价',
+   memo                 varchar(254) comment '备注'
+);
+
+/*==============================================================*/
+/* Table: Quotation                                             */
+/*==============================================================*/
+create table Quotation
+(
+   quotationId          varchar(254) comment '报价单ID',
+   sender               varchar(254) comment '发送人',
+   appUser              AppUser comment '接收人',
+   plasticPrice         PlasticPrice comment '橡塑牌价信息',
+   batNo                varchar(254) comment '批次号'
+);
+
+/*==============================================================*/
+/* Table: SDS                                                   */
+/*==============================================================*/
+create table SDS
+(
+   sdsID                varchar(254) comment 'sdsID',
+   sdsName              varchar(254) comment 'sds名称',
+   url                  varchar(254) comment 'URL',
+   fileName             varchar(254) comment '文件名',
+   summary              varchar(254) comment '概述'
+);
+
+alter table SDS comment 'sds文件';
+
+/*==============================================================*/
+/* Table: Truckmission                                          */
+/*==============================================================*/
+create table Truckmission
+(
+   truckmissionId       varchar(254) comment '下车单id',
+   company              WxUserCompany comment '公司',
+   wxOrder              WxOrder comment '订单',
+   ladingbill           Ladingbill comment '提单',
+   driver               List<Driver> comment '司机',
+   appUser              AppUser comment '用户',
+   createDatetime       datetime comment '创建时间',
+   approveId            varchar(254) comment '审批人Id',
+   approveState         varchar(254) comment '审批状态',
+   approveDatetime      datetime comment '审批时间',
+   approveOpinion       varchar(254) comment '审批意见'
+);
+
+alter table Truckmission comment '运输委托单明细行';
+
+/*==============================================================*/
+/* Table: WxInfo                                                */
+/*==============================================================*/
+create table WxInfo
+(
+   subscribe            int comment '用户是否订阅该公众号标识，值为0时，代表此用户没有关注该公众号，拉取不到其余信息。',
+   openid               varchar(254) comment '用户的标识',
+   nickname             varchar(254) comment '用户的昵称',
+   sex                  int comment '用户的性别',
+   city                 varchar(254) comment '用户所在城市',
+   country              varchar(254) comment '用户所在国家',
+   province             varchar(254) comment '用户所在省份',
+   language             varchar(254) comment '用户的语言',
+   headimgurl           varchar(254) comment '用户头像',
+   subscribe_time       datetime comment '用户关注时间',
+   unionid              varchar(254) comment '只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。',
+   remark               varchar(254) comment '公众号运营者对粉丝的备注',
+   groupid              int comment '用户所在的分组ID',
+   tagid_list           List comment '用户被打上的标签ID列表',
+   subscribe_scene      varchar(254) comment '返回用户关注的渠道来源',
+   qr_scene             int comment '二维码扫码场景',
+   qr_scene_str         varchar(254) comment '二维码扫码场景描述'
+);
+
+alter table WxInfo comment '微信信息';
+
+/*==============================================================*/
+/* Table: WxOrder                                               */
+/*==============================================================*/
+create table WxOrder
+(
+   orderId              varchar(254) comment '单号',
+   mdmCompanyCode       varchar(254) comment '公司主数据编码',
+   orderState           varchar(254) comment '订单状态',
+   createDatetime       datetime comment '订单日期',
+   agreeNo              varchar(254) comment '合同号',
+   orderDetail          List<OrderDetail> comment '物料明细',
+   orderType            varchar(254) comment '单据类型',
+   customerName         varchar(254) comment '客户',
+   currencyType         varchar(254) comment '币种',
+   orderPrice           BigDecimal? comment '订单金额',
+   department           varchar(254) comment '部门',
+   seller               int comment '业务员',
+   deliveryType         varchar(254) comment '提货方式',
+   payType              varchar(254) comment '付款方式',
+   loanType             varchar(254) comment '贷款类型',
+   loanDeadline         datetime comment '货款到账截止日',
+   memo                 varchar(254) comment '备注',
+   includeTax           bool comment '价格是否含税'
+);
+
+/*==============================================================*/
+/* Table: WxUserCompany                                         */
+/*==============================================================*/
+create table WxUserCompany
+(
+   companyId            varchar(254) comment '公司ID',
+   companyName          varchar(254) comment '公司名称',
+   companyMdmCode       varchar(254) comment '公司主数据编码',
+   companyMdmName       varchar(254) comment '公司主数据名称',
+   referrerName         varchar(254) comment '推荐人姓名',
+   isCheck              int comment '推荐人是否为稽核岗',
+   bindingState         int comment '是否已绑定',
+   bindingTime          datetime comment '绑定审批时间',
+   bindingPerson        varchar(254) comment '绑定审批人',
+   bindingOpinion       varchar(254) comment '绑定审批意见',
+   bindingData          varchar(254) comment '绑定资料',
+   authorizeState       int comment '是否已授权',
+   authorizeTime        datetime comment '授权审批时间',
+   authorizePerson      varchar(254) comment '授权审批人',
+   authorizeOpinion     varchar(254) comment '授权审批意见',
+   authorizeData        varchar(254) comment '授权资料'
+);
+
+alter table WxUserCompany comment '微信用户所在的公司';
